@@ -125,7 +125,7 @@ public class A
         전장의안개_헬퍼= new FogOfWarHelper(Index mapSize);
 
         foreach (Index wallIndex in wallIndexs)
-            fogOfWarHelper.AddObstacle(wallIndex);
+            전장의안개_헬퍼.AddObstacle(wallIndex);
     }
 
 
