@@ -113,59 +113,62 @@ ex예제. update 함수 형식 예제 (복붙한다고 돌아가는건 아니고
 
 
 
-
-fogOfWarHelper 전장의안개_헬퍼;
-
-
-
-public void Start()
+public class A
 {
-    전장의안개_헬퍼= new FogOfWarHelper(Index mapSize);
 
-    foreach (Index wallIndex in wallIndexs)
-        fogOfWarHelper.AddObstacle(wallIndex);
-}
+    fogOfWarHelper 전장의안개_헬퍼;
 
 
 
-
-public void Update()
-{
-    FogOfWarHelper_Output prevOutput = 전장의안개_헬퍼.Output;
-
-    foreach (Index i in prevOutput.lightIndexList)
-        맵[i.y, i.x].SetFog();
-
-    foreach (FogIndex i in prevOutput.fogIndexList)
-        맵[i.index.y, i.index.x].SetFog();
-
-    // ↑ 이전 프레임에서 켜줬던 시야 다시 꺼주기
-
-
-
-
-
-    전장의안개_헬퍼.Clear_Unit();
-
-    foreach (Unit unit in Units)
+    public void Start()
     {
-        unit.Update();
-        전장의안개_헬퍼.AddUnit(unit.GetIndex, unit.fob_distance, unit.fOB_OPTION_TYPE);
+        전장의안개_헬퍼= new FogOfWarHelper(Index mapSize);
+
+        foreach (Index wallIndex in wallIndexs)
+            fogOfWarHelper.AddObstacle(wallIndex);
     }
 
-    // ↑ 이전 유닛상황은 전부 삭제해주고 현 프레임에 포지션이 바뀐 유닛을 다시 등록
 
 
 
-    전장의안개_헬퍼.Update();
+    public void Update()
+    {
+        FogOfWarHelper_Output prevOutput = 전장의안개_헬퍼.Output;
 
-    FogOfWarHelper_Output output = 전장의안개_헬퍼.Output;
+        foreach (Index i in prevOutput.lightIndexList)
+            맵[i.y, i.x].SetFog();
 
-    foreach (Index i in output.lightIndexList)
-        맵[i.y, i.x].SetLight();
+        foreach (FogIndex i in prevOutput.fogIndexList)
+            맵[i.index.y, i.index.x].SetFog();
 
-    foreach (FogIndex i in output.fogIndexList)
-        맵[i.index.y, i.index.x].SetFog(i.fogType);
+        // ↑ 이전 프레임에서 켜줬던 시야 다시 꺼주기
 
-    // ↑ 업데이트 이후 output을 받아와 시야 밝히는 인덱스들은 켜주고 , 안개 인덱스 들은 꺼줌
+
+
+
+
+        전장의안개_헬퍼.Clear_Unit();
+
+        foreach (Unit unit in Units)
+        {
+            unit.Update();
+            전장의안개_헬퍼.AddUnit(unit.GetIndex, unit.fob_distance, unit.fOB_OPTION_TYPE);
+        }
+
+        // ↑ 이전 유닛상황은 전부 삭제해주고 현 프레임에 포지션이 바뀐 유닛을 다시 등록
+
+
+
+        전장의안개_헬퍼.Update();
+
+        FogOfWarHelper_Output output = 전장의안개_헬퍼.Output;
+
+        foreach (Index i in output.lightIndexList)
+            맵[i.y, i.x].SetLight();
+
+        foreach (FogIndex i in output.fogIndexList)
+            맵[i.index.y, i.index.x].SetFog(i.fogType);
+
+        // ↑ 업데이트 이후 output을 받아와 시야 밝히는 인덱스들은 켜주고 , 안개 인덱스 들은 꺼줌
+    }
 }
